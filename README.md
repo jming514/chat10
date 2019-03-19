@@ -10,6 +10,10 @@ Client.java and Server.java are the back end files.
 
 ClientGUI2.java and ServerGUI.java are handle all GUI.
 
+loginDB.java basic login authenication GUI
+
+login.db the sqlite database file to store the login information
+
 ## Changes to make
 
 ClientGUI2.java needs to be connected to Client.java
