@@ -18,12 +18,10 @@ ServerGUI.java needs to be redesigned.
 
 ## Features to add
 
-- [ ] Show connected users
+- [ ] Show connected users: Clients are able to see what other users are connected to the same chat server they are connected to. The gui should display all users in the chat room.
 
-- [ ] Stored chat history
+- [ ] Stored chat history: Chat history should be stored in a database such that new users joining the chat room are able to see previously sent messages even if they were not connected.
 
-- [ ] File transfer
+- [ ] File transfer: A client can upload file and allow other users in the chat room to download the file.
 
-- [ ] Account database
-
-- [ ] 
+- [ ] Account database: A database for accounts to store usernames and passwords.
