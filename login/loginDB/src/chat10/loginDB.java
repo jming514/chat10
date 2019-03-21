@@ -12,18 +12,29 @@ import java.awt.event.*;
  * @author David
  */
 public class loginDB {
-    JFrame f=new JFrame("Login");
-    JLabel l=new JLabel("Username:");
-    JLabel l2=new JLabel("Password:");
-    JTextField t=new JTextField(15);
-    JTextField t2=new JPasswordField(10);
+    JFrame loginFrame=new JFrame("Login");
+    JLabel loginLabel=new JLabel("Username:");
+    JLabel loginLabel2=new JLabel("Password:");
+    JTextField loginText=new JTextField(15);
+    JTextField loginText2=new JPasswordField(10);
     JButton loginButton = new JButton ("Login");
+    JButton registrationButton = new JButton ("Register");
     Connection conn;
     Statement st;
     ResultSet rs;
+    JFrame registrationFrame=new JFrame("Registration");
+    JLabel registrationLabel=new JLabel("First Name:");
+    JLabel registrationLabel2=new JLabel("Last Name:");
+    JLabel registrationLabel3=new JLabel("Username:");
+    JLabel registrationLabel4=new JLabel("Password:");
+    JTextField registrationText=new JTextField(15);
+    JTextField registrationText2=new JTextField(15);
+    JTextField registrationText3=new JTextField(15);
+    JTextField registrationText4=new JPasswordField(10);
+    JButton registerButton = new JButton ("Register");
     public loginDB(){
-        //connect();
-        //createNewTable();
+        connect();
+        createNewTable();
         Frame();
     }
     public static void connect() {
@@ -51,16 +62,15 @@ public class loginDB {
     public static void createNewTable() {
         // SQLite connection string
         String url = "jdbc:sqlite:login.db";
-        
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS user (\n"
-                + "	id integer PRIMARY KEY,\n"
+                + "id integer PRIMARY KEY,\n"
                 + "	fname text NOT NULL,\n"
                 + "	lname text NOT NULL,\n"
-                + "	username text NOT NULL,\n"
+                + "	username text NOT NULL UNIQUE,\n"
                 + "	password text NOT NULL\n"
                 + ");";
-        
+        System.out.println("created");
         try (Connection conn = DriverManager.getConnection(url);
                 Statement stmt = conn.createStatement()) {
             // create a new table
@@ -69,73 +79,117 @@ public class loginDB {
             System.out.println(e.getMessage());
         }
     }
-
-    /**
-     *
-     */
-    public  void selectAll(){        
-        try{
-            String sql = "SELECT username,password FROM user";
-            rs = st.executeQuery(sql);
-            // loop through the result set
-            while (rs.next()) {
-                System.out.println(rs.getInt("username") +  "\t" + 
-                                   rs.getString("password"));
-            }
-        } 
-        catch (SQLException e) {
-        }
-    }
     public void Frame(){
-        f.setSize(300,120);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
+        loginFrame.setSize(300,150);
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.setVisible(true);
         JPanel p = new JPanel();
-        p.add(l);
-        p.add(t);
-        p.add(l2);
-        p.add(t2);
+        p.add(loginLabel);
+        p.add(loginText);
+        p.add(loginLabel2);
+        p.add(loginText2);
         p.add(loginButton);
-        f.add(p);
+        p.add(registrationButton);
+        loginFrame.add(p);
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){   
+            
             Connection c = null;
             Statement stmt = null;
-            try {
-               String user = t.getText().trim();
-               String pass = t2.getText().trim();
-               Class.forName("org.sqlite.JDBC");
-               c = DriverManager.getConnection("jdbc:sqlite:login.db");
-               c.setAutoCommit(false);
-               System.out.println("Opened database successfully");
+            if (!loginText.getText().isEmpty() && !loginText2.getText().isEmpty() )
+                try {
+                   String user = loginText.getText().trim();
+                   String pass = loginText2.getText().trim();              
+                   Class.forName("org.sqlite.JDBC");
+                   c = DriverManager.getConnection("jdbc:sqlite:login.db");
+                   c.setAutoCommit(false);
+                   System.out.println("Opened database successfully");
 
-               stmt = c.createStatement();
-               ResultSet rs = stmt.executeQuery( "SELECT username,password FROM user WHERE username='"+user+"'and password='"+pass+"';" );
-               int resultCount=0;
-                while ( rs.next() ) {
-                    resultCount+=1;
+                   stmt = c.createStatement();
+                   ResultSet rs = stmt.executeQuery( "SELECT username,password FROM user WHERE username='"+user+"'and password='"+pass+"';" );
+                   int resultCount=0;
+                    while ( rs.next() ) {
+                        resultCount+=1;
+                    }
+                    if (resultCount==1){
+                        JOptionPane.showMessageDialog (null, "Login Sucessful!");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog (null, "Incorrect username or password");
+                    }
+                    rs.close();
+                    stmt.close();
+                    c.close();
+                }   
+                catch ( Exception e1 ) {
+                    System.err.println( e1.getClass().getName() + ": " + e1.getMessage() );
+                    System.exit(0);
                 }
-                if (resultCount==1){
-                    JOptionPane.showMessageDialog (null, "Login Sucessful!");
-                }
-                else {
-                    JOptionPane.showMessageDialog (null, "Incorrect username or password");
-                }
-                rs.close();
-                stmt.close();
-                c.close();
-            }   
-            catch ( Exception e1 ) {
-                System.err.println( e1.getClass().getName() + ": " + e1.getMessage() );
-                System.exit(0);
+            else{
+                JOptionPane.showMessageDialog (null, "Invalid");
             }
-        } }
-                
+        } });
+        registrationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){   
+                registrationFrame.setSize(300,300);
+                registrationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                registrationFrame.setVisible(true);
+                JPanel p = new JPanel();
+                p.add(registrationLabel);
+                p.add(registrationText);
+                p.add(registrationLabel2);
+                p.add(registrationText2);
+                p.add(registrationLabel3);
+                p.add(registrationText3);
+                p.add(registrationLabel4);
+                p.add(registrationText4);
+                p.add(registerButton);
+                registrationFrame.add(p);
+                registerButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e){  
+                        Connection c = null;             
+                        String sql = "INSERT INTO user VALUES('', ?, ?,?,?)";
+                        if (!registrationText.getText().isEmpty() && !registrationText2.getText().isEmpty()&& !registrationText3.getText().isEmpty() && !registrationText4.getText().isEmpty()){
+                            try {
+                                Class.forName("org.sqlite.JDBC");
+                                c = DriverManager.getConnection("jdbc:sqlite:login.db");
+                                Statement stmt = c.createStatement();
+                                String fname = registrationText.getText().trim();
+                                String lname = registrationText2.getText().trim();
+                                String user = registrationText3.getText().trim();
+                                String pass = registrationText4.getText().trim();
+
+                                System.out.println(fname+lname+user+pass);
+                                stmt.executeUpdate( "INSERT INTO user (fname,lname,username,password) VALUES('"+fname+"','"+lname+"','"+user+"','"+pass+"')");
+
+                                System.out.println(fname+lname+user+pass);
+                                registrationFrame.dispose();
+                                registrationText.setText("");
+                                registrationText2.setText("");
+                                registrationText3.setText("");
+                                registrationText4.setText("");
+                                JOptionPane.showMessageDialog (null, "User Created");
+                                registerButton.removeActionListener(this);
+                                c.close();
+                            }
+                            catch ( Exception e2 ) {
+                                JOptionPane.showMessageDialog (null, "Username already exist");
+                             }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog (null, "Invalid");
+                        }
+                         }
+                    } );
+                    
+                }
+        }      
         );
     }
     public static void main(String[] args) throws Exception {
-            loginDB test = new loginDB();
-            //test.selectAll();
+            loginDB login = new loginDB();
        }
 }
