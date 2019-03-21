@@ -18,7 +18,8 @@ ClientGUI2.java and ServerGUI.java are handle all GUI.
 loginDB.java basic login authenication + registration GUI working
 
 jdbc library:sqlite-jdbc-3.23.1.jar retreived from https://bitbucket.org/xerial/sqlite-jdbc/downloads/
-login.db the sqlite database file to store the login information
+
+login.db is the sqlite database file to store the login information
 
 ## Changes to make
 
