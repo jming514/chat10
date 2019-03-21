@@ -5,7 +5,9 @@
 A chat server must be first set up before clients can talk. The clients choose an IP and port # to connect to. Multiple clients can connect to a chat server and message each other.
 
 Login window requires user to enter an username and password. 
+
 login button: prompts the program to check the database for matching username and password and returns a message correspondingly.
+
 registration button: opens the registration window. Registration fields are inserted into database if unique username constraint is met. 
 
 
