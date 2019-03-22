@@ -13,6 +13,9 @@ package chat10;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import chat10.loginDB.*;
 
 public class ClientGUI2 extends JFrame implements ActionListener {
 
@@ -91,6 +94,15 @@ public class ClientGUI2 extends JFrame implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+
+        if (o == login) {
+            try {
+                loginDB.main(new String[] {});
+            } catch (Exception ex) {
+                Logger.getLogger(ClientGUI2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }
