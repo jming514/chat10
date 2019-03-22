@@ -18,16 +18,9 @@ ClientGUI2.java and ServerGUI.java are handle all GUI.
 
 ## Features to add
 
-- [ ] Show connected users
+- [ ] Show connected users: Clients are able to see what other users are connected to the same chat server they are connected to. The gui should display all users in the chat room.
 
-- [ ] Stored chat history
+- [ ] Stored chat history: Chat history should be stored in a database such that new users joining the chat room are able to see previously sent messages even if they were not connected.
 
-- [ ] File transfer
+- [ ] File transfer: A client can upload file and allow other users in the chat room to download the file.
 
-- [ ] Account database
-
-## Changes in GUI-update
-
-1. Moved send button below text box in ClientGUI2.java
-
-2. Recreated ServerGUI2.java
