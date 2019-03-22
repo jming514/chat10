@@ -12,9 +12,9 @@ ClientGUI2.java and ServerGUI.java are handle all GUI.
 
 ## Changes to make
 
-ClientGUI2.java needs to be connected to Client.java
+- ClientGUI2.java needs to be connected to Client.java
 
-ServerGUI.java needs to be redesigned.
+- ServerGUI2.java needs to be connected to Server.java
 
 ## Features to add
 
@@ -24,4 +24,3 @@ ServerGUI.java needs to be redesigned.
 
 - [ ] File transfer: A client can upload file and allow other users in the chat room to download the file.
 
-- [ ] Account database: A database for accounts to store usernames and passwords.
