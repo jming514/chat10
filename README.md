@@ -24,3 +24,4 @@ ClientGUI2.java and ServerGUI.java are handle all GUI.
 
 - [ ] File transfer: A client can upload file and allow other users in the chat room to download the file.
 
+- [x] Account database: A database for accounts to store usernames and passwords.
