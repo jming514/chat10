@@ -19,9 +19,13 @@ import chat10.loginDB.*;
 
 public class ClientGUI2 extends JFrame implements ActionListener {
 
+    /**
+     * Username from loginDB must be passed to ClientGUI2
+     */
+
     private static final long serialVersionUID = 1L;
     // defaults
-    private String defaultHost;
+    private String defaultHost, name;
     private int defaultPort;
     // ask for username
     private JLabel username;
@@ -30,12 +34,14 @@ public class ClientGUI2 extends JFrame implements ActionListener {
     // host and port entered here
     private JTextField tfHost, tfPort;
     // buttons
-    private JButton login, logout, send;
+    private JButton loginLogout, logout, send;
     // shows all chat messages
     private JTextArea chatScreen;
+    private boolean connected;
+    private Client client;
     
     // Constructor
-    ClientGUI2(String host, int port) {
+    ClientGUI2(String host, int port, String user) {
 
         super("Client Chat");
         defaultHost = host;
@@ -46,8 +52,8 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         // Set start position
         setLocationRelativeTo(null);
 
-        // Top panel of client GUI where host, port, username, login button are located
-        JPanel topPanel = new JPanel(new GridLayout(3, 1));
+        // Top panel of client GUI where host, port, username, loginLogout button are located
+        JPanel topPanel = new JPanel(new GridLayout(2, 1));
         JPanel infoArea = new JPanel(new GridLayout(1, 5, 1, 3));
         // Host and port
         tfHost = new JTextField(host);
@@ -57,15 +63,15 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         infoArea.add(new JLabel("Port: "));
         infoArea.add(tfPort);
         // Login button
-        login = new JButton("Login");
-        login.addActionListener(this);
-        infoArea.add(login);
+        loginLogout = new JButton("Login");
+        loginLogout.addActionListener(this);
+        infoArea.add(loginLogout);
         topPanel.add(infoArea);
-        // Username
-        username = new JLabel("Enter your username below", SwingConstants.CENTER);
+        // Username 
+        // TO BE REMOVED || MOVE TO BELOW MESSAGEFIELD
+        name = user;
+        username = new JLabel(user, SwingConstants.CENTER);
         topPanel.add(username);
-        userField = new JTextField();
-        topPanel.add(userField);
         add(topPanel, BorderLayout.NORTH);
 
         // Panel with chat history
@@ -81,28 +87,96 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         messageField.setEnabled(false);
         botPanel.add(messageField);
         send = new JButton("Send");
+        send.addActionListener(this);
         send.setEnabled(false);
         botPanel.add(send);
         add(botPanel, BorderLayout.SOUTH);
-        
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
+    // append text in JTextArea
+    void append(String str) {
+        chatScreen.append(str);
+        chatScreen.setCaretPosition(chatScreen.getText().length() - 1);
+    }
+    
     public static void main(String[] args) {
-        new ClientGUI2("localhost", 1995);
+        if (args.length == 1) {
+            String a = args[0];
+            ClientGUI2 clientGUI2 = new ClientGUI2("localhost", 1500, a); // 192.168.2.15
+        } else {
+            ClientGUI2 clientGUI2 = new ClientGUI2("localhost", 1500, "ANONYMOUS");
+        }
+        
     }
     
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
 
-        if (o == login) {
-            try {
-                loginDB.main(new String[] {});
-            } catch (Exception ex) {
-                Logger.getLogger(ClientGUI2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (o == send) {
+            client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, messageField.getText()));
+            messageField.setText("");
+            return;
         }
+
+        if (o == loginLogout) {
+            if (loginLogout.getText() == "Logout") { //Logged in
+                loginLogout.setText("Login");
+                messageField.setText("");
+                messageField.setEnabled(false);
+                send.setEnabled(false);
+                tfHost.setEditable(true);
+                tfPort.setEditable(true);
+                client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
+            } else { // Logged out
+                // Username passed from LoginDB
+                String uname = name;
+                
+                defaultHost = tfHost.getText().trim();
+                defaultPort = Integer.parseInt(tfPort.getText().trim());
+                
+                if (defaultHost.length() == 0 || defaultPort < 0) {
+                    return;
+                }
+                client = new Client(defaultHost, defaultPort, uname, this);
+
+                if(!client.start()) 
+                    return;
+                    
+                messageField.setText("");
+                messageField.setEnabled(true);
+                connected = true;
+                tfHost.setEditable(false);
+                tfPort.setEditable(false);
+                send.setEnabled(true);
+                loginLogout.setText("Logout");
+                getRootPane().setDefaultButton(send);  // Enter key = send button
+
+            }
+            
+            messageField.addActionListener(this);
+        }
+    }
+
+    // called by the GUI is the connection failed
+    // we reset our buttons, label, textfield
+    void connectionFailed() {
+        // login.setEnabled(true);
+        // logout.setEnabled(false);
+        // whoIsIn.setEnabled(false);
+        // label.setText("Enter your username below");
+        // tf.setText("Anonymous");
+        // // reset port number and host name as a construction time
+        // tfPort.setText("" + defaultPort);
+        // tfServer.setText(defaultHost);
+        // // let the user change them
+        // tfServer.setEditable(false);
+        // tfPort.setEditable(false);
+        // // don't react to a <CR> after the username
+        // tf.removeActionListener(this);
+        connected = false;
     }
 
 }

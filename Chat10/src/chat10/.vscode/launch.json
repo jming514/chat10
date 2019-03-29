@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Client",
+            "request": "launch",
+            "mainClass": "chat10.Client"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - loginDB",
+            "request": "launch",
+            "mainClass": "chat10.loginDB"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ServerGUI2",
+            "request": "launch",
+            "mainClass": "chat10.ServerGUI2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ClientGUI2",
+            "request": "launch",
+            "mainClass": "chat10.ClientGUI2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ClientGUI",
+            "request": "launch",
+            "mainClass": "chat10.ClientGUI"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ServerGUI",
+            "request": "launch",
+            "mainClass": "chat10.ServerGUI"
+        }
+    ]
+}
