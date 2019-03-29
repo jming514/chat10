@@ -8,13 +8,11 @@ A chat server must be first set up before clients can talk. The clients choose a
 
 Client.java and Server.java are the back end files.
 
-ClientGUI2.java and ServerGUI.java are handle all GUI.
+ClientGUI3.java and ServerGUI.java are handle all GUI.
 
 ## Changes to make
 
-- ClientGUI2.java needs to be connected to Client.java
-
-- ServerGUI2.java needs to be connected to Server.java
+waiting for database part
 
 ## Features to add
 
@@ -22,6 +20,6 @@ ClientGUI2.java and ServerGUI.java are handle all GUI.
 
 - [ ] Stored chat history: Chat history should be stored in a database such that new users joining the chat room are able to see previously sent messages even if they were not connected.
 
-- [ ] File transfer: A client can upload file and allow other users in the chat room to download the file.
+- [ ] ~~File transfer: A client can upload file and allow other users in the chat room to download the file.~~
 
 - [x] Account database: A database for accounts to store usernames and passwords.
