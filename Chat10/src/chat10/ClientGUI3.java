@@ -26,9 +26,8 @@ public class ClientGUI3 extends javax.swing.JFrame {
     public ClientGUI3(String user) {
         initComponents();
         
-        String name = user;
+        name = user;
         
-        chatScreen.setText(name);
         sendButton.setEnabled(false);
         msgField.setEnabled(false);
     }
@@ -60,12 +59,15 @@ public class ClientGUI3 extends javax.swing.JFrame {
 
         chatScreen.setEditable(false);
         chatScreen.setColumns(20);
+        chatScreen.setLineWrap(true);
         chatScreen.setRows(5);
         chatScreen.setWrapStyleWord(true);
         jScrollPane1.setViewportView(chatScreen);
 
         msgField.setColumns(20);
+        msgField.setLineWrap(true);
         msgField.setRows(5);
+        msgField.setWrapStyleWord(true);
         jScrollPane2.setViewportView(msgField);
 
         sendButton.setText("Send");
@@ -97,6 +99,7 @@ public class ClientGUI3 extends javax.swing.JFrame {
         userList.setColumns(20);
         userList.setLineWrap(true);
         userList.setRows(5);
+        userList.setWrapStyleWord(true);
         jScrollPane3.setViewportView(userList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
