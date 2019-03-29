@@ -10,6 +10,8 @@ Client.java and Server.java are the back end files.
 
 ClientGUI3.java and ServerGUI.java are handle all GUI.
 
+Login -> Client GUI -> connect to server -> chat
+
 ## Changes to make
 
 waiting for database part
