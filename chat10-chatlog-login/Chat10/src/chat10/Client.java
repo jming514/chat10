@@ -244,7 +244,7 @@ public class Client  {
 						System.out.println(msg);
 						System.out.print("> ");
 					}
-                                        else if (msg.equals("Incorrect username or password")==true ||
+                                        else if (msg.equals("Incorrect username or password")==true ||msg.equals("Connected as anonymous")==true||
                                                 msg.equals("User created")==true || msg.equals("Username already exist")==true
                                                 || msg.substring(0,16).equals("Successful Login")==true ){
                                             cg.alert(msg);

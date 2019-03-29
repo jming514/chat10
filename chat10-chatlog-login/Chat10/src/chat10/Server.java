@@ -289,6 +289,7 @@ public class Server {
                                         stmt = c.createStatement();
                                         ResultSet rs = stmt.executeQuery( "SELECT username,password FROM user WHERE username='"+user+"'and password='"+password+"';" );
                                         int resultCount=0;
+                                         System.out.println(user);
                                          while ( rs.next() ) {
                                              resultCount+=1;
                                          }
@@ -299,6 +300,9 @@ public class Server {
                                                   System.out.println(rs2.getString("msg"));
                                                   writeMsg(rs2.getString("msg"));
                                                 }
+                                         }                                     
+                                         else if (user.equals("")){
+                                             writeMsg("Connected as anonymous");
                                          }
                                          else {
                                              writeMsg("Incorrect username or password");

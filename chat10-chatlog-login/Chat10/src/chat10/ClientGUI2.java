@@ -97,6 +97,7 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         infoArea.add(tfPort);
         // Login button
         loginLogout = new JButton("Login");
+        loginLogout.setText("Login");
         loginLogout.addActionListener(this);
         infoArea.add(loginLogout);
         topPanel.add(infoArea);
@@ -138,21 +139,26 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         if (str.length()<16){
             JOptionPane.showMessageDialog (null, str);
             if (str.equals("User created")==true){
-                registrationFrame.dispose();
+                registrationFrame.dispose();}
+              
         }
-        }
+        
         else if (str.substring(0,16).equals("Successful Login")==true){
             JOptionPane.showMessageDialog (null, str.substring(0,16));
             String uname = str.substring(16,str.length());
             loginFrame.dispose();      
             client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
             client = new Client(defaultHost, defaultPort, uname, this);
+            loginLogout.setText ("Logout");
                 
             if(!client.start()) 
                 return;         
         }
         else {
             JOptionPane.showMessageDialog (null, str);
+            if (str.equals("Connected as anonymous")==true){
+                loginFrame.dispose();
+                    }
         }
 
      
@@ -174,36 +180,12 @@ public class ClientGUI2 extends JFrame implements ActionListener {
 //             client.sendMessage(new ChatMessage(ChatMessage.LOGIN, ""));
 
                         // to loop until LOGOUT
-
-
-            if (loginLogout.getText() == "Logout") {
-                loginLogout.setText("Login");
-                messageField.setText("");
-                messageField.setEnabled(false);
-                send.setEnabled(false);;
-                client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
-                
-            } else {
-                // Username passed from LoginDB
-                String uname = "Anonymous";
-                
-                client = new Client(defaultHost, defaultPort, uname, this);
-                
+            if (loginLogout.getText() == "Login") {
+             try {   
+                 String uname = "Anonymous";
+                client = new Client(defaultHost, defaultPort, uname, this);               
                 if(!client.start()) 
                     return;
-                    
-                messageField.setText("");
-                messageField.setEnabled(true);
-                // messageField.setFocusable(true);
-                connected = true;
-                tfHost.setEditable(false);
-                tfPort.setEditable(false);
-                send.setEnabled(true);
-                loginLogout.setText("Logout");
-                getRootPane().setDefaultButton(send);  // Enter key = send button
-                //client.sendMessage(new ChatMessage(ChatMessage.LOGIN, ""));
-            }
-             try {   
                  login = new loginDB();
                  loginFrame.setSize(300,150);
                  loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -226,10 +208,9 @@ public class ClientGUI2 extends JFrame implements ActionListener {
                 String message = loginText.getText().trim().toLowerCase() + ":" +loginText2.getText().trim().toLowerCase();
                 client.sendMessage(new ChatMessage(ChatMessage.LOGIN, message));
                 loginText2.setText("");
-                
+                loginButton.removeActionListener(this);
 
-                }});
-                
+                }});           
                 registrationButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e){   
@@ -279,6 +260,29 @@ public class ClientGUI2 extends JFrame implements ActionListener {
                      Logger.getLogger(ClientGUI2.class.getName()).log(Level.SEVERE, null, ex);
                  }
                 messageField.addActionListener(this);
+            }
+        }
+                  if (loginLogout.getText() == "Logout") {
+                loginLogout.setText("Login");
+                messageField.setText("");
+                messageField.setEnabled(false);
+                send.setEnabled(false);;
+                client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
+                
+            } else {
+                // Username passed from LoginDB
+               
+                    
+                messageField.setText("");
+                messageField.setEnabled(true);
+                // messageField.setFocusable(true);
+                connected = true;
+                tfHost.setEditable(false);
+                tfPort.setEditable(false);
+                send.setEnabled(true);
+                loginLogout.setText("Logout");
+                getRootPane().setDefaultButton(send);  // Enter key = send button
+                //client.sendMessage(new ChatMessage(ChatMessage.LOGIN, ""));
             }
     }
 
