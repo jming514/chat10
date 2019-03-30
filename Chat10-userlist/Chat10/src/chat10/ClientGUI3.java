@@ -351,7 +351,7 @@ public class ClientGUI3 extends javax.swing.JFrame implements ActionListener {
                     }
                 });
             } catch (Exception ex) {
-                Logger.getLogger(ClientGUI2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientGUI3.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             loginLogout.setText("Login");
