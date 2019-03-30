@@ -13,6 +13,9 @@ package chat10;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import chat10.loginDB.*;
 
 public class ClientGUI2 extends JFrame implements ActionListener {
 
@@ -49,9 +52,9 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         // Host and port
         tfHost = new JTextField(host);
         tfPort = new JTextField(Integer.toString(port));
-        infoArea.add(new JLabel("Server Address: "));
+        infoArea.add(new JLabel("Server: "));
         infoArea.add(tfHost);
-        infoArea.add(new JLabel("Port: ", SwingConstants.RIGHT));
+        infoArea.add(new JLabel("Port: "));
         infoArea.add(tfPort);
         // Login button
         login = new JButton("Login");
@@ -59,7 +62,7 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         infoArea.add(login);
         topPanel.add(infoArea);
         // Username
-        username = new JLabel("Enter your username");
+        username = new JLabel("Enter your username below", SwingConstants.CENTER);
         topPanel.add(username);
         userField = new JTextField();
         topPanel.add(userField);
@@ -73,16 +76,15 @@ public class ClientGUI2 extends JFrame implements ActionListener {
         add(midPanel, BorderLayout.CENTER);
 
         // Bottom panel with text field and send button
-        JPanel botPanel = new JPanel(new GridLayout(1, 3));
+        JPanel botPanel = new JPanel(new GridLayout(2, 0));
         messageField = new JTextField(10);
         messageField.setEnabled(false);
-        botPanel.add(messageField, BorderLayout.CENTER);
+        botPanel.add(messageField);
         send = new JButton("Send");
         send.setEnabled(false);
-        botPanel.add(send, BorderLayout.EAST);
+        botPanel.add(send);
         add(botPanel, BorderLayout.SOUTH);
         
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -92,6 +94,15 @@ public class ClientGUI2 extends JFrame implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+
+        if (o == login) {
+            try {
+                loginDB.main(new String[] {});
+            } catch (Exception ex) {
+                Logger.getLogger(ClientGUI2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }
