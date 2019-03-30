@@ -142,8 +142,12 @@ public class Server {
 //		// display message on console or GUI
             if(sg == null)
                 System.out.print(messageLf);
-            else
-                sg.appendRoom(messageLf);     // append in the room window
+            else if (messageLf.substring(1,4).equals(":::")){
+            
+            }
+            
+            else{
+                sg.appendRoom(messageLf);  }   // append in the room window
 
             // we loop in reverse order in case we would have to remove a Client
             // because it has disconnected
